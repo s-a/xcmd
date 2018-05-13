@@ -1,22 +1,51 @@
-input {}
+ #terminal-container {
+   width: 800;
+   margin: 0 auto;
+   padding: 2px;
+ }
 
-#terminal-container {
-  width: 800px;
-  margin: 0 auto;
-  padding: 2px;
-}
+ #nterm-title {
+   -webkit-app-region: drag;
+ }
 
-.xterm {}
+ ::-webkit-scrollbar {
+   width: 11px;
+   height: 11px;
+ }
 
-body {
-  background-color: rgba(0, 0, 0, 0.9);
-}
+ ::-webkit-scrollbar-button {
+   width: 20;
+   height: 30;
+ }
 
-html,
-body {
-  height: 100%;
-}
+ ::-webkit-scrollbar-thumb {
+   background: #e1e1e1;
+   border: 0 none #fff;
+   border-radius: 0;
+ }
 
-#nterm-title {
-  -webkit-app-region: drag;
-}
+ ::-webkit-scrollbar-thumb:hover {
+   background: #fff;
+ }
+
+ ::-webkit-scrollbar-thumb:active {
+   background: #000;
+ }
+
+ ::-webkit-scrollbar-track {
+   background: #666;
+   border: 0 none #fff;
+   border-radius: 0;
+ }
+
+ ::-webkit-scrollbar-track:hover {
+   background: #666;
+ }
+
+ ::-webkit-scrollbar-track:active {
+   background: #333;
+ }
+
+ ::-webkit-scrollbar-corner {
+   background: transparent;
+ }

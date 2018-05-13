@@ -1,8 +1,12 @@
 // @flow
 import fs from 'fs';
 import chalk from 'chalk';
-import { execSync } from 'child_process';
-import { dependencies } from '../../package.json';
+import {
+  execSync
+} from 'child_process';
+import {
+  dependencies
+} from '../../package.json';
 
 (() => {
   if (!dependencies) return;
@@ -10,7 +14,7 @@ import { dependencies } from '../../package.json';
   const dependenciesKeys = Object.keys(dependencies);
   const nativeDeps =
     fs.readdirSync('node_modules')
-      .filter(folder => fs.existsSync(`node_modules/${folder}/binding.gyp`));
+    .filter(folder => fs.existsSync(`node_modules/${folder}/binding.gyp`));
 
   try {
     // Find the reason for why the dependency is installed. If it is installed
@@ -40,7 +44,7 @@ ${chalk.whiteBright.bgGreen.bold('cd ./app && npm install your-package --save')}
 
 
 Read more about native dependencies at:
-${chalk.bold('https://github.com/chentsulin/electron-react-boilerplate/wiki/Module-Structure----Two-package.json-Structure')}
+${chalk.bold('https://github.com/s-a/xcmd/wiki/Module-Structure----Two-package.json-Structure')}
 
 
 `);
