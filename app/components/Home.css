@@ -1,0 +1,22 @@
+input {}
+
+#terminal-container {
+  width: 800px;
+  margin: 0 auto;
+  padding: 2px;
+}
+
+.xterm {}
+
+body {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+#nterm-title {
+  -webkit-app-region: drag;
+}
