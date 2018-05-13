@@ -15,6 +15,7 @@ import {
   BrowserWindow
 } from 'electron';
 import MenuBuilder from './menu';
+import open from 'open';
 
 
 let mainWindow = null;
@@ -72,6 +73,12 @@ app.on('ready', async () => {
     frame: false,
     titleBarStyle: 'hidden'
   });
+
+  mainWindow.webContents.on('new-window', function (event, url) {
+    event.preventDefault();
+    open(url);
+  });
+
   // mainWindow.setIgnoreMouseEvents(true)
   // electronVibrancy.SetVibrancy(mainWindow, 2)
   // mainWindow.setVibrancy('dark')

@@ -25,6 +25,9 @@ let xterm;
 let terminalContainer;
 let ptyProcess;
 
+
+
+
 function setTerminalSize() {
   const cols = parseInt(80, 10);
   const rows = parseInt(20, 10);
@@ -120,6 +123,7 @@ function runRealTerminal() {
   // Setup communication between xterm.js and node-pty
   xterm.on('data', (data) => {
     ptyProcess.write(data);
+    // console.info(ptyProcess)
   });
   ptyProcess.on('data', (data) => {
     xterm.write(data);
