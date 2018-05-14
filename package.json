@@ -1,6 +1,6 @@
 {
   "name": "xcmd",
-  "productName": "ElectronReact",
+  "productName": "xcmd",
   "version": "0.13.2",
   "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
   "scripts": {
@@ -32,8 +32,8 @@
   },
   "browserslist": "electron 1.6",
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.develar.ElectronReact",
+    "productName": "xcmd",
+    "appId": "org.develar.xcmd",
     "files": [
       "dist/",
       "node_modules/",
@@ -77,8 +77,8 @@
     "url": "git+https://github.com/s-a/xcmd.git"
   },
   "author": {
-    "name": "C. T. Lin",
-    "email": "s-a@gmail.com",
+    "name": "Stephan Ahlf",
+    "email": "stephan.ahlf@gmail.com",
     "url": "https://github.com/s-a"
   },
   "license": "MIT",
@@ -191,6 +191,7 @@
     "electron-debug": "^1.5.0",
     "font-awesome": "^4.7.0",
     "history": "^4.7.2",
+    "key-code": "0.0.1",
     "open": "0.0.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

@@ -11,15 +11,19 @@ rowsElement.addEventListener('change', setTerminalSize); */
 
 export default class Home extends Component<Props> {
   props: Props;
+
   componentDidMount() {
     this.main.parentElement.classList.add('h-100')
 
   }
+
+  onCommand(command) {
+    console.info(command)
+  }
+
   render() {
     return (
-
       <div ref={(e) => { this.main = e }} className="container-fluid d-flex h-100 flex-column" style={{ backgroundColor: '' }}>
-
         <div className="row flex-shrink-0">
           <div className="col">
             <div className="text-danger" style={{ WebkitAppRegion: 'drag' }} id="nterm-title">title</div>
@@ -27,7 +31,7 @@ export default class Home extends Component<Props> {
         </div>
         <div className="row flex-fill d-flex justify-content-start overflow-auto">
           <div className="col portlet-container portlet-dropzone mh-100" style={{ backgroundColor: '' }}>
-            <XTerminal />
+            <XTerminal onCommand={this.onCommand} />
           </div>
         </div>
         <div className="row flex-shrink-0">
@@ -36,9 +40,6 @@ export default class Home extends Component<Props> {
           </div>
         </div>
       </div>
-
-
-
     );
   }
 }
