@@ -11,28 +11,15 @@ import * as winptyCompat from './../../node_modules/xterm/dist/addons/winptyComp
 import os from 'os'
 import KeyCode from 'key-code';
 
-const VInput = function () {
-	this.cursor = 0
-	this.value = ''
-	return this
-}
-
-VInput.prototype.isPrintableKey = () => {
-	return e.key.length === 1;
-}
-
 const pty = require('node-pty')
+const path = require('path')
+const fs = require('fs')
+const pathParser = require('./path-parser.js')
 
 let xterm;
 let terminalContainer;
 let ptyProcess;
 
-var x = document.createElement("INPUT");
-x.setAttribute("type", "text");
-
-function setTerminalSize() {
-	xterm.fit();
-}
 
 window.onresize = function (event) {
 	xterm.fit();
@@ -67,7 +54,6 @@ function createTerminal() {
 	xterm.focus();
 }
 
-
 function runFakeTerminal() {
 	if (xterm._initialized) {
 		return;
@@ -84,13 +70,10 @@ function runFakeTerminal() {
 	let options = { enabled: true, level: 2 };
 	const forcedChalk = new chalk.constructor(options);
 
-	xterm.writeln(forcedChalk.green('Welcome to xterm.js http://www.google.de'));
-	xterm.writeln(forcedChalk.hex('#39ff14').bold('Welcome to xterm.js http://www.google.de'));
-	xterm.writeln(forcedChalk.hex('#39ff14').bold('This is a local terminal emulation, without a real terminal in the back-end.'));
-	xterm.writeln(forcedChalk.hex('#39ff14').bold('Type some keys and commands to play around.'));
-	xterm.writeln(forcedChalk.hex('#39ff14').bold(''));
-	xterm.writeln(forcedChalk.green('Hello from \\033[1;3;31mxterm.js\\033[0m $ '))
-	xterm.writeln(forcedChalk.hex('#39ff14').bold('\u001b[34mHello\u001b[39m World\u001b[31m!\u001b[39m'))
+	const color = forcedChalk.hex('#39ff14')
+	/* 	const p = path.join(__dirname, '../app/package.json')
+		const v = JSON.parse(fs.readFileSync(p).toString()).version
+		xterm.writeln(color(`$ xcmd [Version ${v}]`)); */
 	xterm.prompt();
 
 	/* xterm.on('key', function (key, ev) {
@@ -115,73 +98,67 @@ function runFakeTerminal() {
 	}); */
 }
 
-var normalize_backspaces = function (s) {
-	return ~s.indexOf("\b") ? normalize_backspaces(s.replace(/[^\x08]?\x08/g, "")) : s;
-};
-
 export default class XTerminal extends Component<Props> {
 
 	constructor() {
 		super()
-		Terminal.applyAddon(attach);
-		Terminal.applyAddon(fit);
-		Terminal.applyAddon(fullscreen);
-		Terminal.applyAddon(search);
-		Terminal.applyAddon(webLinks);
-		Terminal.applyAddon(winptyCompat);
+		Terminal.applyAddon(attach)
+		Terminal.applyAddon(fit)
+		Terminal.applyAddon(fullscreen)
+		Terminal.applyAddon(search)
+		Terminal.applyAddon(webLinks)
+		Terminal.applyAddon(winptyCompat)
+		this.dir = process.cwd()
 	}
 
 	componentDidMount() {
-		createTerminal();
-		runFakeTerminal();
-		this.runRealTerminal();
+		createTerminal()
+		runFakeTerminal()
+		this.runRealTerminal()
 	}
 
 	runRealTerminal() {
 		const self = this
-		const shell = process.env[os.platform() === 'win32' ? 'COMSPEC' : 'SHELL'];
-		ptyProcess = pty.spawn(shell, [], {
+		const defaultShell = require('default-shell')
+		ptyProcess = pty.spawn(defaultShell, [], {
 			name: 'xterm-color',
 			cols: 80,
 			rows: 30,
-			cwd: process.cwd(),
+			cwd: this.dir,
 			env: process.env
-		});
+		})
 
-		let myBuffer = [];
+		let ptyProcessReady = false
+
 		xterm.on('data', function (data) {
-			ptyProcess.write(data);
-			if (13 === data.charCodeAt(0)) {
-				/* self.props.onCommand("Q", this.textarea.value) */
-			}
-		});
-
-		// This is an xterm.js instance
-		xterm.on('key', function (key, e) {
-			myBuffer.push(key);
-			var ee = new KeyboardEvent("keydown", { key });
-			x.dispatchEvent(ee)
-		});
+			ptyProcess.write(data)
+		})
 
 		ptyProcess.on('exit', function (key, e) {
-			alert('exit');
-		});
+			require('electron').remote.app.quit()
+		})
 
-		xterm.on('linefeed', function () {
-			// console.info(myBuffer)
-			let keysEntered = myBuffer.join('');  // Or something like that
-			keysEntered = normalize_backspaces(keysEntered)
-			myBuffer = [];  // Empty buffer
-			self.props.onCommand(keysEntered, myBuffer)
-			console.warn(x.value)
-			x.value = ""
-		});
+		ptyProcess.on('data', function (data) {
+			if (!ptyProcessReady) {
+				xterm.fit()
+				ptyProcessReady = true
+			}
+			let dir = data.split('\n')
+			dir = dir[dir.length - 1]
+			dir = dir.split('>')[0]
+			dir = pathParser(dir)[0]
 
-		ptyProcess.on('data', (data) => {
-			xterm.write(data);
+
+			// Sanitize the string to be safe for use as a filename.
+
+			if (fs.existsSync(dir) && dir !== self.dir) {
+				debugger
+				self.dir = dir
+				self.props.onDirectoryChange(self.dir)
+			}
+			xterm.write(data)
 		});
 	}
-
 
 	render() {
 		return (<div className="h-100 w-100 d-inline-block mh-100" id="terminal-container" ></div>)
