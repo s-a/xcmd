@@ -157,6 +157,8 @@
     "eslint-plugin-jsx-a11y": "6.0.3",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-react": "^7.6.1",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-standard": "^3.0.1",
     "express": "^4.16.2",
     "extract-text-webpack-plugin": "^3.0.2",
     "fbjs-scripts": "^0.8.1",
@@ -188,6 +190,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.1.1",
+    "canvas-to-image-node": "^1.0.4",
     "default-shell": "^1.0.1",
     "devtron": "^1.4.0",
     "electron-debug": "^1.5.0",
@@ -206,6 +209,7 @@
     "redux-thunk": "^2.2.0",
     "sanitize-filename": "^1.6.1",
     "source-map-support": "^0.5.3",
+    "strip-ansi": "^4.0.0",
     "xterm": "^3.3.0"
   },
   "devEngines": {

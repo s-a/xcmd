@@ -2,7 +2,7 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~font-awesome/css/font-awesome.css";
 body {
-  background-color: rgba(0, 0, 0, 0.88);
+  background-color: rgba(255, 0, 0, 0.88);
 }
 
 html,
