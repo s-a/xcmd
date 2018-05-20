@@ -2,11 +2,24 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~font-awesome/css/font-awesome.css";
 body {
-  background-color: rgba(255, 0, 0, 0.88);
+  background-color: rgba(4, 10, 9, 0.88);
 }
 
 html,
 body {
   height: 100%;
   padding: 5px;
+}
+
+#git-status-icon {
+  display: inline-block;
+  position: relative;
+  top: 4px;
+  margin-right: 8px;
+}
+
+#nterm-footer {
+  margin-top: 22px;
+  color: white;
+  font-family: courier-new, courier, monospace;
 }

@@ -130,20 +130,11 @@ export default class XTerminal extends Component<Props> {
 			screenReaderMode: false,
 			cursorStyle: 'underline',
 			bellStyle: 'none',
-			theme: {
-				background: 'transparent'
-			},
-			allowTransparency: true
+			allowTransparency: true,
+			theme: this.props.theme
 		});
 		this.props.onInitXTerm(xterm)
-		/* 
-			xterm.setOption('theme', {
-				background: 'transparent',
-				white: '#ccc',
-				red: '#F00',
-				brightRed: '#F22',
-				// ... (can be a partial list)
-			}); */
+
 		xterm.open(terminalContainer);
 		xterm.winptyCompatInit();
 		xterm.webLinksInit();

@@ -195,7 +195,9 @@
     "devtron": "^1.4.0",
     "electron-debug": "^1.5.0",
     "font-awesome": "^4.7.0",
+    "git-branch": "^2.0.1",
     "history": "^4.7.2",
+    "is-git-clean": "^1.1.0",
     "key-code": "0.0.1",
     "open": "0.0.5",
     "react": "^16.2.0",
@@ -208,6 +210,7 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "sanitize-filename": "^1.6.1",
+    "shelljs": "^0.8.2",
     "source-map-support": "^0.5.3",
     "strip-ansi": "^4.0.0",
     "xterm": "^3.3.0"
