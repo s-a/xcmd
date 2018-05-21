@@ -244,7 +244,7 @@ export default class XTerminal extends Component<Props> {
 			if (data.indexOf('ssh ') !== -1) {
 				console.warn(data)
 			}
-			if (dir && dir.length > 1 && dir !== self.dir) {
+			if (dir && dir.length > 1) {
 				self.dir = dir
 				const localDirecory = fs.existsSync(dir)
 

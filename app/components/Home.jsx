@@ -29,7 +29,6 @@ export default class Home extends Component<Props> {
 
   chalkTest() {
     const result = []
-
     result.push(forcedChalk.black('black'))
     result.push(forcedChalk.red('red'))
     result.push(forcedChalk.green('green'))
