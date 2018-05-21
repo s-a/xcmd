@@ -5,36 +5,16 @@ import style from './Home.css'
 import 'font-awesome/css/font-awesome.min.css'
 import XTerminal from './XTerminal.jsx'
 import Git from './git.jsx'
+import Config from './config.js'
 
+const config = new Config()
 const chalk = require('chalk')
 const chalkOptions = { enabled: true, level: 2 }
 const forcedChalk = new chalk.constructor(chalkOptions)
 const path = require('path')
 const fs = require('fs')
+const Color = require('color')
 
-const theme = {
-  foreground: '#2ee2a6',
-  background: 'transparent',
-  cursor: '#efd966',
-  cursorAccent: '#efd966',
-  // selection: 'red',
-  black: "#333333",
-  red: "#C4265E", // the bright color with ~75% transparent on the background
-  green: "#86B42B",
-  yellow: "#B3B42B",
-  blue: "#6A7EC8",
-  magenta: "#8C6BC8",
-  cyan: "#56ADBC",
-  white: "#e3e3dd",
-  brightBlack: "#666666",
-  brightRed: "#f92672",
-  brightGreen: "#A6E22E",
-  brightYellow: "#e2e22e", // hue shifted #A6E22E
-  brightBlue: "#819aff", // hue shifted #AE81FF
-  brightMagenta: "#AE81FF",
-  brightCyan: "#66D9EF",
-  brightWhite: "#f8f8f2"
-}
 
 export default class Home extends Component<Props> {
   props: Props;
@@ -42,15 +22,48 @@ export default class Home extends Component<Props> {
   constructor() {
     super()
     this.state = {
-      theme,
+      theme: config.theme,
       version: require('electron').remote.app.getVersion()
     }
   }
 
-  componentDidMount() {
-    this.main.parentElement.classList.add('h-100')
+  chalkTest() {
+    const result = []
+
+    result.push(forcedChalk.black('black'))
+    result.push(forcedChalk.red('red'))
+    result.push(forcedChalk.green('green'))
+    result.push(forcedChalk.yellow('yellow'))
+    result.push(forcedChalk.blue('blue'))
+    result.push(forcedChalk.magenta('magenta'))
+    result.push(forcedChalk.cyan('cyan'))
+    result.push(forcedChalk.white('white'))
+    result.push(forcedChalk.gray('blackBright'))
+    result.push(forcedChalk.redBright('redBright'))
+    result.push(forcedChalk.greenBright('greenBright'))
+    result.push(forcedChalk.yellowBright('yellowBright'))
+    result.push(forcedChalk.blueBright('blueBright'))
+    result.push(forcedChalk.magentaBright('magentaBright'))
+    result.push(forcedChalk.cyanBright('cyanBright'))
+    result.push(forcedChalk.whiteBright('whiteBright'))
+    return result.join(' ')
   }
 
+  onInitXTerm(xterm) {
+    this.xterm = xterm
+    this.xterm.writeln(forcedChalk.hex(this.state.theme.blue)('configs at ') + forcedChalk.hex(this.state.theme.yellow)(config.filename()) + '\n')
+    this.xterm.writeln(this.chalkTest() + '\n')
+    config.save()
+  }
+
+  componentDidMount() {
+    this.main.parentElement.classList.add('h-100')
+    const alpha = this.state.theme.bgAlpha || 0.88
+    let bgColor = Color(this.state.theme.bg || '#00').alpha(alpha).array()
+    bgColor = (alpha === 1 ? ' rgb' : 'rgba') + '(' + bgColor.join(',') + ')'
+    console.log(this.state.theme.bgAlpha, bgColor)
+    window.document.getElementById('body').style.backgroundColor = bgColor;
+  }
 
   onDirectoryChange(info) {
     const self = this
@@ -68,20 +81,11 @@ export default class Home extends Component<Props> {
   }
 
   onSubmitCommand(command) {
-    if (command === 'xcmd') {
-      const color = forcedChalk.red
-      /* 	const p = path.join(__dirname, '../app/package.json')
-      const v = JSON.parse(fs.readFileSync(p).toString()).version
-      xterm */
+    if (command === 'color') {
       this.xterm.____ignore = true
-      this.xterm.writeln(color(` loading config\n`));
-      window.document.getElementById('body').style.backgroundColor = 'rgba(0, 0, 0, 0.88)';
+      this.xterm.writeln(this.chalkTest() + '\n')
     }
     console.info(command)
-  }
-
-  onInitXTerm(xterm) {
-    this.xterm = xterm
   }
 
   render() {
@@ -129,7 +133,7 @@ export default class Home extends Component<Props> {
         </div>
         <div className="row flex-fill d-flex justify-content-start overflow-auto">
           <div className="col portlet-container portlet-dropzone mh-100" style={{ backgroundColor: '' }}>
-            <XTerminal ref={(e) => { this.terminal = e }} theme={this.state.theme} emitter={this.emitter} onInitXTerm={this.onInitXTerm.bind(this)} onCommand={this.onCommand} onSubmitCommand={this.onSubmitCommand.bind(this)} onDirectoryChange={this.onDirectoryChange.bind(this)} />
+            <XTerminal ref={(e) => { this.terminal = e }} theme={this.state.theme} onInitXTerm={this.onInitXTerm.bind(this)} onCommand={this.onCommand} onSubmitCommand={this.onSubmitCommand.bind(this)} onDirectoryChange={this.onDirectoryChange.bind(this)} />
           </div>
         </div>
         <div className="row flex-shrink-0">

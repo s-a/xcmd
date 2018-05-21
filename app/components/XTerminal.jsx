@@ -132,9 +132,7 @@ export default class XTerminal extends Component<Props> {
 			bellStyle: 'none',
 			allowTransparency: true,
 			theme: this.props.theme
-		});
-		this.props.onInitXTerm(xterm)
-
+		})
 
 		xterm.open(terminalContainer);
 		xterm.winptyCompatInit();
@@ -163,6 +161,7 @@ export default class XTerminal extends Component<Props> {
 			const b = Buffer.from(data, 'base64')
 		}
 	}
+
 	runRealTerminal() {
 		const self = this
 		const defaultShell = require('default-shell')
@@ -231,7 +230,7 @@ export default class XTerminal extends Component<Props> {
 					path: process.cwd(),
 					local: true
 				})
-
+				self.props.onInitXTerm(xterm)
 			}
 			const lines = data.split('\n')
 			const lastLine = stripAnsi(lines[lines.length - 1])
