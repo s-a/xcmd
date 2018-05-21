@@ -135,6 +135,7 @@ export default class XTerminal extends Component<Props> {
 		});
 		this.props.onInitXTerm(xterm)
 
+
 		xterm.open(terminalContainer);
 		xterm.winptyCompatInit();
 		xterm.webLinksInit();
@@ -148,6 +149,7 @@ export default class XTerminal extends Component<Props> {
 		runFakeTerminal()
 		this.runRealTerminal()
 	}
+
 	to_image() {
 		console.log('save')
 		const CanvasToImage = require('canvas-to-image-node')
@@ -193,6 +195,28 @@ export default class XTerminal extends Component<Props> {
 				const cmd = getCommandInput()
 				self.props.onSubmitCommand(cmd)
 			}
+
+			// Ctrl + Shift + C
+			if (e.ctrlKey && e.ctrlKey && e.keyCode === 67) {
+				var copySucceeded = document.execCommand('copy');
+				console.log('copy succeeded', copySucceeded);
+				e.stopPropagation()
+				return false;
+			}
+
+			if (e.ctrlKey && e.keyCode === 86) {
+				var pasteSucceeded = document.execCommand('paste');
+				console.log('paste succeeded', pasteSucceeded);
+				e.stopPropagation()
+				return false;
+			}
+
+			if (e.ctrlKey && e.keyCode === 8) {
+				console.log('done')
+				ptyProcess.write('\x7F\b')
+				return false;
+			}
+
 		})
 
 		ptyProcess.on('exit', function (key, e) {
