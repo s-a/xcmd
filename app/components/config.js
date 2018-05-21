@@ -82,9 +82,9 @@ const themeGhost = themeGenerator.generate({
 const themeDefault = themeGenerator.generate({
   bg: '1E1E1E',
   bgAlpha: 0.9,
-  black: Color('black').hex(),
+  black: Color('black').lighten(0.9).hex(),
   red: Color('red').lighten(0.7).hex(),
-  green: Color('green').hex(),
+  green: Color('green').lighten(0.9).hex(),
   yellow: Color('yellow').hex(),
   blue: Color('blue').hex(),
   magenta: Color('magenta').hex(),
@@ -92,16 +92,30 @@ const themeDefault = themeGenerator.generate({
   white: Color('white').hex(),
 }, 0.25)
 
+const themeAlert = themeGenerator.generate({
+  bg: '660000',
+  bgAlpha: 1,
+  black: Color('#660000').darken(0.8).hex(),
+  red: 'FF9999',
+  green: '229999',
+  yellow: 'FFF247',
+  blue: '229999',
+  magenta: '3F7F7F',
+  cyan: 'AADDDD',
+  white: 'FFFFFF',
+}, 0.25)
+
 
 const Config = function () {
   this.settings = {
-    defaultTheme: 'default',
+    defaultTheme: 'alert',
     themes: {
       monokai: themeMonokai,
       rose: themeRose,
       neon: themeNeon,
       ghost: themeGhost,
       default: themeDefault,
+      alert: themeAlert,
     }
   }
   this.theme = this.settings.themes[this.settings.defaultTheme]

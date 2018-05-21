@@ -16,7 +16,6 @@ ThemeGenerator.prototype.generate = function (colors, darken) {
   const result = {
     bgAlpha: colors.bgAlpha || 0.88,
     bg: colors.bg || '#000000',
-    foreground: Color(colors.white || 'white').hex(),
     background: 'transparent',
     cursor: Color(colors.white || 'white').hex(),
     cursorAccent: Color(colors.white || 'white').hex(),
@@ -35,6 +34,8 @@ ThemeGenerator.prototype.generate = function (colors, darken) {
     brightCyan: Color(colors.cyan || 'cyan').hex(),
     brightWhite: Color(colors.white || 'white').hex()
   }
+
+  result.foreground = result.white
 
   return result
 }
